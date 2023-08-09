@@ -1,8 +1,6 @@
 import Vector2D from "../src/models/vector2d";
 
 describe("Vector2D", () => {
-  const epsilon = 1e-6;
-
   it("should create a Vector2D instance", () => {
     const vector = new Vector2D(3, 4);
     expect(vector.coordinates).toEqual([3, 4]);
@@ -10,7 +8,7 @@ describe("Vector2D", () => {
 
   it("should calculate the correct magnitude squared", () => {
     const vector = new Vector2D(3, 4);
-    expect(vector.magnitudeSquared()).toBeCloseTo(25, epsilon);
+    expect(vector.magnitudeSquared()).toBeCloseTo(25);
   });
 
   it("should calculate the correct unit vector", () => {
