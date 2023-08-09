@@ -9,13 +9,14 @@ export default class Creature {
 
   public pursue(
     otherCreature: Creature,
-    timeInterval: number,
-    velocity: number
+    stepSize: number,
+    distanceThreshold: number = 1
   ): void {
     const difference = otherCreature.position.minus(this.position);
-    if (difference.magnitudeSquared() < 1) return;
+    if (difference.magnitudeSquared() < distanceThreshold * distanceThreshold)
+      return;
     const direction = difference.unit();
-    const displacement = direction.times(velocity * timeInterval);
+    const displacement = direction.times(stepSize);
     this._position = this.position.plus(displacement);
   }
 }

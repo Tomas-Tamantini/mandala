@@ -11,26 +11,24 @@ describe("Creature", () => {
   it("should pursue another creature with correct displacement", () => {
     const creature = new Creature(new Vector2D(1, 1));
     const otherCreature = new Creature(new Vector2D(5, 4));
-    const timeInterval = 0.1;
-    const velocity = 10;
 
-    creature.pursue(otherCreature, timeInterval, velocity);
+    const stepSize = 0.5;
 
-    expect(creature.position.coordinates[0]).toBeCloseTo(1.8);
-    expect(creature.position.coordinates[1]).toBeCloseTo(1.6);
+    creature.pursue(otherCreature, stepSize);
+
+    expect(creature.position.coordinates[0]).toBeCloseTo(1.4);
+    expect(creature.position.coordinates[1]).toBeCloseTo(1.3);
   });
 
-  it("should not move if the distance to the other creature is less than 1", () => {
-    const initialPosition = new Vector2D(1, 1);
-    const otherCreaturePosition = new Vector2D(1.5, 1.5);
-    const creature = new Creature(initialPosition);
-    const otherCreature = new Creature(otherCreaturePosition);
+  it("should not move if the distance to the other creature is less than the distance threshold", () => {
+    const creature = new Creature(new Vector2D(0, 0));
+    const otherCreature = new Creature(new Vector2D(0, 9.9));
 
-    const timeInterval = 0.1;
-    const velocity = 10;
+    const distanceThreshold = 10;
+    const stepSize = 0.1;
 
-    creature.pursue(otherCreature, timeInterval, velocity);
+    creature.pursue(otherCreature, stepSize, distanceThreshold);
 
-    expect(creature.position.coordinates).toEqual(initialPosition.coordinates);
+    expect(creature.position.coordinates).toEqual([0, 0]);
   });
 });
