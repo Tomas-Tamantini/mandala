@@ -33,6 +33,11 @@ export function randomMandalaWorld(): World {
     chaseStepMultiplicity = randInt(1, pointMultiplicity - 1);
     if (isCoprime(chaseStepMultiplicity, pointMultiplicity)) break;
   }
+  console.log(
+    `World info: Symmetry = ${symmetry}, ` +
+      `Point mult. = ${pointMultiplicity}, ` +
+      `Chase step mult. = ${chaseStepMultiplicity}`
+  );
   return mandalaWorld(symmetry, pointMultiplicity, chaseStepMultiplicity);
 }
 
