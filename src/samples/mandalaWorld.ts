@@ -24,7 +24,7 @@ export function randomMandalaWorld(): World {
   const symmetry = randInt(2, 30);
   let pointMultiplicity = -1;
   while (true) {
-    pointMultiplicity = randInt(2, 50);
+    pointMultiplicity = randInt(3, 50);
     let numPoints = pointMultiplicity * symmetry;
     if (10 <= numPoints && numPoints <= 200) break;
   }
