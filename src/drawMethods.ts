@@ -26,7 +26,7 @@ function drawCircle(
   fillColor: string
 ) {
   ctx.beginPath();
-  ctx.arc(centerCoords.x, centerCoords.y, 1, 0, twoPi);
+  ctx.arc(centerCoords.x, centerCoords.y, 0.75, 0, twoPi);
   ctx.strokeStyle = strokeColor;
   ctx.stroke();
   ctx.fillStyle = fillColor;

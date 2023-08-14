@@ -6,7 +6,7 @@
         const r = 2 * Math.PI;
         function n(t, e, n, o) {
           t.beginPath(),
-            t.arc(e.x, e.y, 1, 0, r),
+            t.arc(e.x, e.y, 0.75, 0, r),
             (t.strokeStyle = n),
             t.stroke(),
             (t.fillStyle = o),
