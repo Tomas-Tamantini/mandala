@@ -3,19 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>Mandala</title>
   </head>
   <body>
-    <canvas id="animation-canvas" width="600" height="400"></canvas>
-    <input
-      type="range"
-      id="framerate-slider"
-      min="5"
-      max="80"
-      step="1"
-      value="40"
-    />
-    <button id="random-mandala-btn">Generate random pattern</button>
+    <header>
+      <h2>Mandala Generator</h2>
+    </header>
+    <main>
+      <canvas id="animation-canvas" width="500" height="400"></canvas>
+      <button id="random-mandala-btn">Randomize</button>
+      <label for="framerate-slider">Animation speed: </label>
+      <input type="range" id="framerate-slider" min="5" max="80" value="40" />
+    </main>
     <script src="dist/bundle.js"></script>
   </body>
 </html>
