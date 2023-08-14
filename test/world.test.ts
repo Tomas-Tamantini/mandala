@@ -24,7 +24,7 @@ describe("World", () => {
 
     const world = new World([], [chaseRelation]);
 
-    const stepSize = 1;
+    const stepSize = 0.1;
 
     world.step();
 

@@ -9,9 +9,13 @@ export default class World {
 
   step(): void {
     for (let chaseRelation of this.chaseRelations) {
-      const stepSize = 1; // TODO: Make this configurable
+      const stepSize = 0.1;
       chaseRelation.chaser.pursue(chaseRelation.chased, stepSize);
     }
+  }
+
+  multiStep(numSteps: number): void {
+    for (let i = 0; i < numSteps; i++) this.step();
   }
 
   public get creatures(): Creature[] {
