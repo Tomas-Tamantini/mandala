@@ -28,6 +28,7 @@ const camera = cameraForWorld(canvas.width, canvas.height, world);
 
 function animate() {
   draw(ctx, world, camera, canvas.width, canvas.height);
+  world.multiStep(15);
   const timeInterval = 1000 / frameRate;
   setTimeout(() => requestAnimationFrame(animate), timeInterval);
 }
