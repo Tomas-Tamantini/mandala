@@ -17,7 +17,6 @@ export default function draw(
     const canvasPosition = camera.convertToCanvasCoordinates(creature.position);
     drawCircle(ctx, canvasPosition, "#275579", "#443838");
   }
-  world.step();
 }
 
 function drawCircle(
