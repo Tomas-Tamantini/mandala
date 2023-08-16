@@ -13,15 +13,10 @@
             t.fill(),
             t.closePath();
         }
-        e.default = function (t, e, r, o, i) {
-          (t.fillStyle = "#59EFE502"), t.fillRect(0, 0, o, i);
+        e.default = function (t, e, r, o, s, i) {
+          (t.fillStyle = i.background), t.fillRect(0, 0, o, s);
           for (let o of e.creatures)
-            n(
-              t,
-              r.convertToCanvasCoordinates(o.position),
-              "#275579",
-              "#443838"
-            );
+            n(t, r.convertToCanvasCoordinates(o.position), i.stroke, i.fill);
         };
       },
       607: function (t, e, r) {
@@ -32,26 +27,28 @@
           };
         Object.defineProperty(e, "__esModule", { value: !0 });
         const o = n(r(874)),
-          i = r(242),
-          s = r(653),
-          a = document.getElementById("animation-canvas"),
-          u = document.getElementById("framerate-slider"),
-          l = document.getElementById("random-mandala-btn"),
-          d = a.getContext("2d");
-        let c = parseInt(u.value);
-        l.addEventListener("click", () => {
-          d.clearRect(0, 0, a.width, a.height),
-            (h = (0, s.randomMandalaWorld)());
+          s = r(242),
+          i = n(r(797)),
+          a = r(653),
+          u = document.getElementById("animation-canvas"),
+          l = document.getElementById("framerate-slider"),
+          d = document.getElementById("random-mandala-btn"),
+          c = u.getContext("2d");
+        let h = parseInt(l.value);
+        d.addEventListener("click", () => {
+          c.clearRect(0, 0, u.width, u.height),
+            (f = (0, a.randomMandalaWorld)());
         }),
-          u.addEventListener("input", () => {
-            c = parseInt(u.value);
+          l.addEventListener("input", () => {
+            h = parseInt(l.value);
           });
-        let h = (0, s.randomMandalaWorld)();
-        const f = (0, i.cameraForWorld)(a.width, a.height, h);
+        let f = (0, a.randomMandalaWorld)();
+        const m = (0, s.cameraForWorld)(u.width, u.height, f),
+          p = new i.default();
         !(function t() {
-          (0, o.default)(d, h, f, a.width, a.height),
-            h.multiStep(15),
-            setTimeout(() => requestAnimationFrame(t), 1e3 / c);
+          (0, o.default)(c, f, m, u.width, u.height, p.currentColor),
+            f.multiStep(15),
+            setTimeout(() => requestAnimationFrame(t), 1e3 / h);
         })();
       },
       242: function (t, e, r) {
@@ -63,7 +60,7 @@
         Object.defineProperty(e, "__esModule", { value: !0 }),
           (e.cameraForWorld = e.Camera = void 0);
         const o = n(r(531));
-        class i {
+        class s {
           constructor(t, e) {
             (this.scaleFactor = t), (this.translationOffset = e);
           }
@@ -71,16 +68,16 @@
             return t.times(this.scaleFactor).plus(this.translationOffset);
           }
         }
-        (e.Camera = i),
+        (e.Camera = s),
           (e.cameraForWorld = function (t, e, r, n = 0.05) {
-            const s = Math.min(
+            const i = Math.min(
                 (t * (1 - 2 * n)) / (r.width + 1e-6),
                 (e * (1 - 2 * n)) / (r.height + 1e-6)
               ),
-              a = t / 2 - s * (r.minXCoord + r.width / 2),
-              u = e / 2 - s * (r.minYCoord + r.height / 2),
+              a = t / 2 - i * (r.minXCoord + r.width / 2),
+              u = e / 2 - i * (r.minYCoord + r.height / 2),
               l = new o.default(a, u);
-            return new i(s, l);
+            return new s(i, l);
           });
       },
       598: (t, e) => {
@@ -97,6 +94,18 @@
               if (n.magnitudeSquared() < r * r) return;
               const o = n.unit().times(e);
               this._position = this.position.plus(o);
+            }
+          });
+      },
+      797: (t, e) => {
+        Object.defineProperty(e, "__esModule", { value: !0 }),
+          (e.default = class {
+            get currentColor() {
+              return {
+                stroke: "#275579",
+                fill: "#443838",
+                background: "#59EFE502",
+              };
             }
           });
       },
@@ -147,16 +156,24 @@
               return this._creatures;
             }
             get minXCoord() {
-              return Math.min(...this._creatures.map((t) => t.position.x));
+              return 0 === this._creatures.length
+                ? 0
+                : Math.min(...this._creatures.map((t) => t.position.x));
             }
             get maxXCoord() {
-              return Math.max(...this._creatures.map((t) => t.position.x));
+              return 0 === this._creatures.length
+                ? 0
+                : Math.max(...this._creatures.map((t) => t.position.x));
             }
             get minYCoord() {
-              return Math.min(...this._creatures.map((t) => t.position.y));
+              return 0 === this._creatures.length
+                ? 0
+                : Math.min(...this._creatures.map((t) => t.position.y));
             }
             get maxYCoord() {
-              return Math.max(...this._creatures.map((t) => t.position.y));
+              return 0 === this._creatures.length
+                ? 0
+                : Math.max(...this._creatures.map((t) => t.position.y));
             }
             get width() {
               return this.maxXCoord - this.minXCoord;
@@ -174,15 +191,15 @@
           };
         Object.defineProperty(e, "__esModule", { value: !0 });
         const o = n(r(598)),
-          i = n(r(531));
-        e.default = function (t, e = 200, r = new i.default(0, 0)) {
+          s = n(r(531));
+        e.default = function (t, e = 200, r = new s.default(0, 0)) {
           const n = [],
-            s = (2 * Math.PI) / t;
+            i = (2 * Math.PI) / t;
           for (let a = 0; a < t; a++) {
-            const t = a * s,
+            const t = a * i,
               u = r.x + e * Math.cos(t),
               l = r.y + e * Math.sin(t);
-            n.push(new o.default(new i.default(u, l)));
+            n.push(new o.default(new s.default(u, l)));
           }
           return n;
         };
@@ -196,17 +213,17 @@
         Object.defineProperty(e, "__esModule", { value: !0 }),
           (e.randomMandalaWorld = e.mandalaWorld = void 0);
         const o = n(r(730)),
-          i = n(r(627));
-        function s(t, e, r = 1) {
+          s = n(r(627));
+        function i(t, e, r = 1) {
           const n = t * e,
-            s = (0, i.default)(n),
+            i = (0, s.default)(n),
             a = t * r + 1,
             u = [];
           for (let t = 0; t < n; t++) {
-            const e = { chaser: s[t], chased: s[(t * a) % n] };
+            const e = { chaser: i[t], chased: i[(t * a) % n] };
             u.push(e);
           }
-          return new o.default(s, u);
+          return new o.default(i, u);
         }
         function a(t, e) {
           return Math.floor(Math.random() * (e - t + 1)) + t;
@@ -214,7 +231,7 @@
         function u(t, e) {
           return e > t ? u(e, t) : 0 === e ? t : u(e, t % e);
         }
-        (e.mandalaWorld = s),
+        (e.mandalaWorld = i),
           (e.randomMandalaWorld = function () {
             const t = a(2, 30);
             let e = -1;
@@ -229,7 +246,7 @@
               console.log(
                 `World info: Symmetry = ${t}, Point mult. = ${e}, Chase step mult. = ${r}`
               ),
-              s(t, e, r)
+              i(t, e, r)
             );
           });
       },
@@ -238,7 +255,7 @@
   !(function r(n) {
     var o = e[n];
     if (void 0 !== o) return o.exports;
-    var i = (e[n] = { exports: {} });
-    return t[n].call(i.exports, i, i.exports, r), i.exports;
+    var s = (e[n] = { exports: {} });
+    return t[n].call(s.exports, s, s.exports, r), s.exports;
   })(607);
 })();

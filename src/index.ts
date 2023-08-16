@@ -1,5 +1,6 @@
 import draw from "./drawMethods";
 import { cameraForWorld } from "./models/camera";
+import RandomColorGenerator from "./models/randomColorGenerator";
 
 import { randomMandalaWorld } from "./samples/mandalaWorld";
 
@@ -25,9 +26,17 @@ framerateSlider.addEventListener("input", () => {
 
 let world = randomMandalaWorld();
 const camera = cameraForWorld(canvas.width, canvas.height, world);
+const colorGenerator = new RandomColorGenerator();
 
 function animate() {
-  draw(ctx, world, camera, canvas.width, canvas.height);
+  draw(
+    ctx,
+    world,
+    camera,
+    canvas.width,
+    canvas.height,
+    colorGenerator.currentColor
+  );
   world.multiStep(15);
   const timeInterval = 1000 / frameRate;
   setTimeout(() => requestAnimationFrame(animate), timeInterval);

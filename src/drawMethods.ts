@@ -1,4 +1,5 @@
 import { Camera } from "./models/camera";
+import ColorSchema from "./models/colorSchema";
 import Vector2D from "./models/vector2d";
 import World from "./models/world";
 
@@ -9,13 +10,14 @@ export default function draw(
   world: World,
   camera: Camera,
   canvasWidth: number,
-  canvasHeight: number
+  canvasHeight: number,
+  colorSchema: ColorSchema
 ) {
-  ctx.fillStyle = "#59EFE502";
+  ctx.fillStyle = colorSchema.background;
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
   for (let creature of world.creatures) {
     const canvasPosition = camera.convertToCanvasCoordinates(creature.position);
-    drawCircle(ctx, canvasPosition, "#275579", "#443838");
+    drawCircle(ctx, canvasPosition, colorSchema.stroke, colorSchema.fill);
   }
 }
 
