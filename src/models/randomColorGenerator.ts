@@ -6,8 +6,26 @@ export default class RandomColorGenerator {
   private colorVelocity: Vector;
 
   constructor() {
-    this.color = new Vector(68, 112, 112);
-    this.colorVelocity = new Vector(-3, -2, 4);
+    this.color = RandomColorGenerator.randomColor();
+    this.colorVelocity = RandomColorGenerator.randomUnitVector();
+  }
+
+  private static randomColor(): Vector {
+    const r = Math.random() * 255;
+    const g = Math.random() * 255;
+    const b = Math.random() * 255;
+    return new Vector(r, g, b);
+  }
+
+  private static randomUnitVector(): Vector {
+    let v = new Vector(0, 0, 0);
+    while (v.magnitudeSquared() < 1e-6) {
+      const vr = Math.random() - 0.5;
+      const vg = Math.random() - 0.5;
+      const vb = Math.random() - 0.5;
+      v = new Vector(vr, vg, vb);
+    }
+    return v.unit();
   }
 
   private static colorToHex(color: Vector): string {
@@ -19,7 +37,7 @@ export default class RandomColorGenerator {
     return color.times(0.8);
   }
 
-  public step(dt: number = 0.4): void {
+  public step(dt: number = 1): void {
     const newColor = this.color.plus(this.colorVelocity.times(dt));
     let newColorCoords = newColor.coordinates;
     for (let i = 0; i < 3; i++) {
@@ -41,7 +59,7 @@ export default class RandomColorGenerator {
         RandomColorGenerator.darkerColor(this.color)
       ),
       fill: RandomColorGenerator.colorToHex(this.color),
-      background: "#59EFE502",
+      background: "#FFFFFF02",
     };
   }
 }

@@ -4,19 +4,19 @@
       874: (t, e) => {
         Object.defineProperty(e, "__esModule", { value: !0 });
         const r = 2 * Math.PI;
-        function o(t, e, o, i) {
+        function o(t, e, o, n) {
           t.beginPath(),
             t.arc(e.x, e.y, 0.75, 0, r),
             (t.strokeStyle = o),
             t.stroke(),
-            (t.fillStyle = i),
+            (t.fillStyle = n),
             t.fill(),
             t.closePath();
         }
-        e.default = function (t, e, r, i, s, n) {
-          (t.fillStyle = n.background), t.fillRect(0, 0, i, s);
-          for (let i of e.creatures)
-            o(t, r.convertToCanvasCoordinates(i.position), n.stroke, n.fill);
+        e.default = function (t, e, r, n, i, s) {
+          (t.fillStyle = s.background), t.fillRect(0, 0, n, i);
+          for (let n of e.creatures)
+            o(t, r.convertToCanvasCoordinates(n.position), s.stroke, s.fill);
         };
       },
       607: function (t, e, r) {
@@ -26,30 +26,30 @@
             return t && t.__esModule ? t : { default: t };
           };
         Object.defineProperty(e, "__esModule", { value: !0 });
-        const i = o(r(874)),
-          s = r(242),
-          n = o(r(797)),
+        const n = o(r(874)),
+          i = r(242),
+          s = o(r(797)),
           a = r(653),
           l = document.getElementById("animation-canvas"),
           u = document.getElementById("framerate-slider"),
           c = document.getElementById("random-mandala-btn"),
-          h = l.getContext("2d");
-        let d = parseInt(u.value);
+          d = l.getContext("2d");
+        let h = parseInt(u.value);
         c.addEventListener("click", () => {
-          h.clearRect(0, 0, l.width, l.height),
+          d.clearRect(0, 0, l.width, l.height),
             (f = (0, a.randomMandalaWorld)());
         }),
           u.addEventListener("input", () => {
-            d = parseInt(u.value);
+            h = parseInt(u.value);
           });
         let f = (0, a.randomMandalaWorld)();
-        const m = (0, s.cameraForWorld)(l.width, l.height, f),
-          p = new n.default();
+        const m = (0, i.cameraForWorld)(l.width, l.height, f),
+          p = new s.default();
         !(function t() {
-          (0, i.default)(h, f, m, l.width, l.height, p.currentColor),
+          (0, n.default)(d, f, m, l.width, l.height, p.currentColor),
             p.step(),
             f.multiStep(15),
-            setTimeout(() => requestAnimationFrame(t), 1e3 / d);
+            setTimeout(() => requestAnimationFrame(t), 1e3 / h);
         })();
       },
       242: function (t, e, r) {
@@ -60,8 +60,8 @@
           };
         Object.defineProperty(e, "__esModule", { value: !0 }),
           (e.cameraForWorld = e.Camera = void 0);
-        const i = o(r(350));
-        class s {
+        const n = o(r(350));
+        class i {
           constructor(t, e) {
             (this.scaleFactor = t), (this.translationOffset = e);
           }
@@ -69,16 +69,16 @@
             return t.times(this.scaleFactor).plus(this.translationOffset);
           }
         }
-        (e.Camera = s),
+        (e.Camera = i),
           (e.cameraForWorld = function (t, e, r, o = 0.05) {
-            const n = Math.min(
+            const s = Math.min(
                 (t * (1 - 2 * o)) / (r.width + 1e-6),
                 (e * (1 - 2 * o)) / (r.height + 1e-6)
               ),
-              a = t / 2 - n * (r.minXCoord + r.width / 2),
-              l = e / 2 - n * (r.minYCoord + r.height / 2),
-              u = new i.default(a, l);
-            return new s(n, u);
+              a = t / 2 - s * (r.minXCoord + r.width / 2),
+              l = e / 2 - s * (r.minYCoord + r.height / 2),
+              u = new n.default(a, l);
+            return new i(s, u);
           });
       },
       598: (t, e) => {
@@ -93,8 +93,8 @@
             pursue(t, e, r = 1) {
               const o = t.position.minus(this.position);
               if (o.magnitudeSquared() < r * r) return;
-              const i = o.unit().times(e);
-              this._position = this.position.plus(i);
+              const n = o.unit().times(e);
+              this._position = this.position.plus(n);
             }
           });
       },
@@ -105,11 +105,27 @@
             return t && t.__esModule ? t : { default: t };
           };
         Object.defineProperty(e, "__esModule", { value: !0 });
-        const i = o(r(350));
-        class s {
+        const n = o(r(350));
+        class i {
           constructor() {
-            (this.color = new i.default(68, 112, 112)),
-              (this.colorVelocity = new i.default(-3, -2, 4));
+            (this.color = i.randomColor()),
+              (this.colorVelocity = i.randomUnitVector());
+          }
+          static randomColor() {
+            const t = 255 * Math.random(),
+              e = 255 * Math.random(),
+              r = 255 * Math.random();
+            return new n.default(t, e, r);
+          }
+          static randomUnitVector() {
+            let t = new n.default(0, 0, 0);
+            for (; t.magnitudeSquared() < 1e-6; ) {
+              const e = Math.random() - 0.5,
+                r = Math.random() - 0.5,
+                o = Math.random() - 0.5;
+              t = new n.default(e, r, o);
+            }
+            return t.unit();
           }
           static colorToHex(t) {
             const [e, r, o] = t.coordinates.map(Math.floor);
@@ -118,7 +134,7 @@
           static darkerColor(t) {
             return t.times(0.8);
           }
-          step(t = 0.4) {
+          step(t = 1) {
             let e = this.color.plus(this.colorVelocity.times(t)).coordinates;
             for (let t = 0; t < 3; t++) {
               let r = e[t];
@@ -129,17 +145,17 @@
                   ((e[t] = 255),
                   (this.colorVelocity = this.colorVelocity.reflect(t)));
             }
-            this.color = new i.default(...e);
+            this.color = new n.default(...e);
           }
           get currentColor() {
             return {
-              stroke: s.colorToHex(s.darkerColor(this.color)),
-              fill: s.colorToHex(this.color),
-              background: "#59EFE502",
+              stroke: i.colorToHex(i.darkerColor(this.color)),
+              fill: i.colorToHex(this.color),
+              background: "#FFFFFF02",
             };
           }
         }
-        e.default = s;
+        e.default = i;
       },
       350: (t, e) => {
         Object.defineProperty(e, "__esModule", { value: !0 });
@@ -228,16 +244,16 @@
             return t && t.__esModule ? t : { default: t };
           };
         Object.defineProperty(e, "__esModule", { value: !0 });
-        const i = o(r(598)),
-          s = o(r(350));
-        e.default = function (t, e = 200, r = new s.default(0, 0)) {
+        const n = o(r(598)),
+          i = o(r(350));
+        e.default = function (t, e = 200, r = new i.default(0, 0)) {
           const o = [],
-            n = (2 * Math.PI) / t;
+            s = (2 * Math.PI) / t;
           for (let a = 0; a < t; a++) {
-            const t = a * n,
+            const t = a * s,
               l = r.x + e * Math.cos(t),
               u = r.y + e * Math.sin(t);
-            o.push(new i.default(new s.default(l, u)));
+            o.push(new n.default(new i.default(l, u)));
           }
           return o;
         };
@@ -250,18 +266,18 @@
           };
         Object.defineProperty(e, "__esModule", { value: !0 }),
           (e.randomMandalaWorld = e.mandalaWorld = void 0);
-        const i = o(r(730)),
-          s = o(r(627));
-        function n(t, e, r = 1) {
+        const n = o(r(730)),
+          i = o(r(627));
+        function s(t, e, r = 1) {
           const o = t * e,
-            n = (0, s.default)(o),
+            s = (0, i.default)(o),
             a = t * r + 1,
             l = [];
           for (let t = 0; t < o; t++) {
-            const e = { chaser: n[t], chased: n[(t * a) % o] };
+            const e = { chaser: s[t], chased: s[(t * a) % o] };
             l.push(e);
           }
-          return new i.default(n, l);
+          return new n.default(s, l);
         }
         function a(t, e) {
           return Math.floor(Math.random() * (e - t + 1)) + t;
@@ -269,7 +285,7 @@
         function l(t, e) {
           return e > t ? l(e, t) : 0 === e ? t : l(e, t % e);
         }
-        (e.mandalaWorld = n),
+        (e.mandalaWorld = s),
           (e.randomMandalaWorld = function () {
             const t = a(2, 30);
             let e = -1;
@@ -284,16 +300,16 @@
               console.log(
                 `World info: Symmetry = ${t}, Point mult. = ${e}, Chase step mult. = ${r}`
               ),
-              n(t, e, r)
+              s(t, e, r)
             );
           });
       },
     },
     e = {};
   !(function r(o) {
-    var i = e[o];
-    if (void 0 !== i) return i.exports;
-    var s = (e[o] = { exports: {} });
-    return t[o].call(s.exports, s, s.exports, r), s.exports;
+    var n = e[o];
+    if (void 0 !== n) return n.exports;
+    var i = (e[o] = { exports: {} });
+    return t[o].call(i.exports, i, i.exports, r), i.exports;
   })(607);
 })();
