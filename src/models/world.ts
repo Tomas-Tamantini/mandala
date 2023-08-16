@@ -23,18 +23,22 @@ export default class World {
   }
 
   public get minXCoord(): number {
+    if (this._creatures.length === 0) return 0;
     return Math.min(...this._creatures.map((creature) => creature.position.x));
   }
 
   public get maxXCoord(): number {
+    if (this._creatures.length === 0) return 0;
     return Math.max(...this._creatures.map((creature) => creature.position.x));
   }
 
   public get minYCoord(): number {
+    if (this._creatures.length === 0) return 0;
     return Math.min(...this._creatures.map((creature) => creature.position.y));
   }
 
   public get maxYCoord(): number {
+    if (this._creatures.length === 0) return 0;
     return Math.max(...this._creatures.map((creature) => creature.position.y));
   }
 
