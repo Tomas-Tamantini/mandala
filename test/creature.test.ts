@@ -16,8 +16,8 @@ describe("Creature", () => {
 
     creature.pursue(otherCreature, stepSize);
 
-    expect(creature.position.coordinates[0]).toBeCloseTo(1.4);
-    expect(creature.position.coordinates[1]).toBeCloseTo(1.3);
+    expect(creature.position.x).toBeCloseTo(1.4);
+    expect(creature.position.y).toBeCloseTo(1.3);
   });
 
   it("should not move if the distance to the other creature is less than the distance threshold", () => {
@@ -29,6 +29,7 @@ describe("Creature", () => {
 
     creature.pursue(otherCreature, stepSize, distanceThreshold);
 
-    expect(creature.position.coordinates).toEqual([0, 0]);
+    expect(creature.position.x).toEqual(0);
+    expect(creature.position.y).toEqual(0);
   });
 });
