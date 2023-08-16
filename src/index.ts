@@ -37,6 +37,7 @@ function animate() {
     canvas.height,
     colorGenerator.currentColor
   );
+  colorGenerator.step();
   world.multiStep(15);
   const timeInterval = 1000 / frameRate;
   setTimeout(() => requestAnimationFrame(animate), timeInterval);

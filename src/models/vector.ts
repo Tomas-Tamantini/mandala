@@ -41,4 +41,12 @@ export default class Vector {
       this.z / magnitude
     );
   }
+
+  public reflect(axisIndex: number): Vector {
+    if (axisIndex < 0 || axisIndex > 2)
+      throw new Error("Invalid axis index - must be 0, 1, or 2");
+    let newCoordinates = this.coordinates;
+    newCoordinates[axisIndex] = -newCoordinates[axisIndex];
+    return new Vector(...newCoordinates);
+  }
 }
