@@ -1,9 +1,9 @@
-import Vector2D from "./vector2d";
+import Vector from "./vector";
 
 export default class Creature {
-  constructor(private _position: Vector2D) {}
+  constructor(private _position: Vector) {}
 
-  public get position(): Vector2D {
+  public get position(): Vector {
     return this._position;
   }
 

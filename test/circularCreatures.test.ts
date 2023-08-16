@@ -1,4 +1,4 @@
-import Vector2D from "../src/models/vector2d";
+import Vector from "../src/models/vector";
 import circularCreatures from "../src/samples/circularCreatures";
 
 describe("circularCreatures function", () => {
@@ -11,7 +11,7 @@ describe("circularCreatures function", () => {
   it("should place creatures in a circle with the given radius and center", () => {
     const numCreatures = 8;
     const radius = 100;
-    const center = new Vector2D(50, 50);
+    const center = new Vector(50, 50);
     const creatures = circularCreatures(numCreatures, radius, center);
 
     creatures.forEach((creature) => {

@@ -1,13 +1,10 @@
-import Vector2D from "./vector2d";
+import Vector from "./vector";
 import World from "./world";
 
 export class Camera {
-  constructor(
-    private scaleFactor: number,
-    private translationOffset: Vector2D
-  ) {}
+  constructor(private scaleFactor: number, private translationOffset: Vector) {}
 
-  public convertToCanvasCoordinates(worldCoordinates: Vector2D): Vector2D {
+  public convertToCanvasCoordinates(worldCoordinates: Vector): Vector {
     return worldCoordinates
       .times(this.scaleFactor)
       .plus(this.translationOffset);
@@ -30,7 +27,7 @@ export function cameraForWorld(
   const yOffset =
     canvasHeight / 2 - scaleFactor * (world.minYCoord + world.height / 2);
 
-  const offset = new Vector2D(xOffset, yOffset);
+  const offset = new Vector(xOffset, yOffset);
 
   return new Camera(scaleFactor, offset);
 }

@@ -1,6 +1,6 @@
 import { Camera } from "./models/camera";
 import ColorSchema from "./models/colorSchema";
-import Vector2D from "./models/vector2d";
+import Vector from "./models/vector";
 import World from "./models/world";
 
 const twoPi = 2 * Math.PI;
@@ -23,7 +23,7 @@ export default function draw(
 
 function drawCircle(
   ctx: CanvasRenderingContext2D,
-  centerCoords: Vector2D,
+  centerCoords: Vector,
   strokeColor: string,
   fillColor: string
 ) {

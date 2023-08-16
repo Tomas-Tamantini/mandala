@@ -1,5 +1,5 @@
 import { Camera, cameraForWorld } from "../src/models/camera";
-import Vector2D from "../src/models/vector2d";
+import Vector from "../src/models/vector";
 
 jest.mock("../src/models/world", () => {
   return {
@@ -12,15 +12,15 @@ jest.mock("../src/models/world", () => {
         public minYCoord: number
       ) {}
 
-      public get center(): Vector2D {
-        return new Vector2D(
+      public get center(): Vector {
+        return new Vector(
           this.width / 2 + this.minXCoord,
           this.height / 2 + this.minYCoord
         );
       }
 
-      public get minEdge(): Vector2D {
-        return new Vector2D(this.minXCoord, this.minYCoord);
+      public get minEdge(): Vector {
+        return new Vector(this.minXCoord, this.minYCoord);
       }
     },
   };
@@ -29,10 +29,10 @@ jest.mock("../src/models/world", () => {
 describe("Camera", () => {
   it("should convert world coordinates to canvas coordinates correctly", () => {
     const scaleFactor = 2;
-    const translationOffset = new Vector2D(10, 5);
+    const translationOffset = new Vector(10, 5);
     const camera = new Camera(scaleFactor, translationOffset);
 
-    const worldCoordinates = new Vector2D(5, 7);
+    const worldCoordinates = new Vector(5, 7);
 
     const canvasCoordinates =
       camera.convertToCanvasCoordinates(worldCoordinates);
