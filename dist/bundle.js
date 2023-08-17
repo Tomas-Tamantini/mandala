@@ -46,9 +46,10 @@
         const m = (0, i.cameraForWorld)(l.width, l.height, f),
           p = new s.default();
         !(function t() {
-          (0, n.default)(d, f, m, l.width, l.height, p.currentColor),
+          f.isDead ||
+            ((0, n.default)(d, f, m, l.width, l.height, p.currentColor),
             p.step(),
-            f.multiStep(15),
+            f.multiStep(15)),
             setTimeout(() => requestAnimationFrame(t), 1e3 / h);
         })();
       },
@@ -195,13 +196,19 @@
         Object.defineProperty(e, "__esModule", { value: !0 }),
           (e.default = class {
             constructor(t = [], e = []) {
-              (this._creatures = t), (this.chaseRelations = e);
+              (this._creatures = t),
+                (this.chaseRelations = e),
+                (this.isDead = !1);
             }
             step() {
-              for (let t of this.chaseRelations) {
-                const e = 0.1;
-                t.chaser.pursue(t.chased, e);
+              let t = !1;
+              for (let e of this.chaseRelations) {
+                const r = 0.1,
+                  o = e.chaser.position;
+                e.chaser.pursue(e.chased, r),
+                  o !== e.chaser.position && (t = !0);
               }
+              t || (this.isDead = !0);
             }
             multiStep(t) {
               for (let e = 0; e < t; e++) this.step();

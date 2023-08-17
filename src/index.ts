@@ -29,16 +29,18 @@ const camera = cameraForWorld(canvas.width, canvas.height, world);
 const colorGenerator = new RandomColorGenerator();
 
 function animate() {
-  draw(
-    ctx,
-    world,
-    camera,
-    canvas.width,
-    canvas.height,
-    colorGenerator.currentColor
-  );
-  colorGenerator.step();
-  world.multiStep(15);
+  if (!world.isDead) {
+    draw(
+      ctx,
+      world,
+      camera,
+      canvas.width,
+      canvas.height,
+      colorGenerator.currentColor
+    );
+    colorGenerator.step();
+    world.multiStep(15);
+  }
   const timeInterval = 1000 / frameRate;
   setTimeout(() => requestAnimationFrame(animate), timeInterval);
 }

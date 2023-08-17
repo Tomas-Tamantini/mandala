@@ -2,16 +2,23 @@ import ChaseRelation from "./chaseRelation";
 import Creature from "./creature";
 
 export default class World {
+  isDead: boolean = false;
+
   constructor(
     private _creatures: Creature[] = [],
     private chaseRelations: ChaseRelation[] = []
   ) {}
 
   step(): void {
+    let someCreatureMoved: boolean = false;
     for (let chaseRelation of this.chaseRelations) {
       const stepSize = 0.1;
+      const positionBefore = chaseRelation.chaser.position;
       chaseRelation.chaser.pursue(chaseRelation.chased, stepSize);
+      const positionAfter = chaseRelation.chaser.position;
+      if (positionBefore !== positionAfter) someCreatureMoved = true;
     }
+    if (!someCreatureMoved) this.isDead = true;
   }
 
   multiStep(numSteps: number): void {
